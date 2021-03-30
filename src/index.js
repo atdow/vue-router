@@ -46,7 +46,7 @@ export default class VueRouter {
     this.afterHooks = []
     this.matcher = createMatcher(options.routes || [], this)
 
-    let mode = options.mode || 'hash'
+    let mode = options.mode || 'hash' // 默认hash路由
     this.fallback =
       mode === 'history' && !supportsPushState && options.fallback !== false
     if (this.fallback) {
@@ -64,6 +64,7 @@ export default class VueRouter {
       case 'hash':
         this.history = new HashHistory(this, options.base, this.fallback)
         break
+      // node环境
       case 'abstract':
         this.history = new AbstractHistory(this, options.base)
         break
@@ -142,7 +143,7 @@ export default class VueRouter {
       })
     })
   }
-
+  // --------------钩子函数start--------------
   beforeEach (fn: Function): Function {
     return registerHook(this.beforeHooks, fn)
   }
@@ -154,7 +155,7 @@ export default class VueRouter {
   afterEach (fn: Function): Function {
     return registerHook(this.afterHooks, fn)
   }
-
+  // --------------钩子函数end--------------
   onReady (cb: Function, errorCb?: Function) {
     this.history.onReady(cb, errorCb)
   }
@@ -276,7 +277,7 @@ VueRouter.install = install
 VueRouter.version = '__VERSION__'
 VueRouter.isNavigationFailure = isNavigationFailure
 VueRouter.NavigationFailureType = NavigationFailureType
-
+// 对vue的支持
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter)
 }
